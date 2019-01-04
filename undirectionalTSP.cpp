@@ -1,0 +1,66 @@
+#include<stdio.h>
+
+long i,j,max,min,fix,n,m,k,si[110][110],sa[110][110],t1[110][110];
+int main()
+{
+	while(~scanf("%ld%ld",&n,&m))
+	{
+		fix=9999999;
+		for(i=0;i<n;i++)
+		{
+			for(j=0;j<m;j++)
+			{
+				scanf("%ld",&sa[i][j]);
+				si[i][j]=fix;
+				t1[i][j]=-1;
+			}
+		}
+		for(i=0;i<n;i++)
+			si[i][m-1]=sa[i][m-1];
+		for(j=m-1;j>0;j--)
+		{
+			for(i=0;i<n;i++)
+			{
+				if(si[i][j-1]>si[i][j]+sa[i][j-1]||(si[i][j-1]==si[i][j]+sa[i][j-1]&&t1[i][j-1]>i))
+				{
+					si[i][j-1]=si[i][j]+sa[i][j-1];
+					t1[i][j-1]=i;
+				}
+				k=i-1;
+				if(k<0)
+					k+=n;
+				if(si[k][j-1]>si[i][j]+sa[k][j-1]||(si[k][j-1]==si[i][j]+sa[k][j-1]&&t1[k][j-1]>i))
+				{
+					si[k][j-1]=si[i][j]+sa[k][j-1];
+					t1[k][j-1]=i;
+				}
+				k=i+1;
+				k%=n;
+				if(si[k][j-1]>si[i][j]+sa[k][j-1]||(si[k][j-1]==si[i][j]+sa[k][j-1]&&t1[k][j-1]>i))
+				{
+					si[k][j-1]=si[i][j]+sa[k][j-1];
+					t1[k][j-1]=i;
+				}
+			}
+		}
+		min=fix;
+		for(i=0;i<n;i++)
+		{
+			if(si[i][0]<min)
+			{
+				min=si[i][0];
+				k=i;
+			}
+		}
+		printf("%ld",k+1);
+		j=0;
+		while(t1[k][j]!=-1)
+		{
+			printf(" %ld",t1[k][j]+1);
+			k=t1[k][j];
+			j++;
+		}
+		printf("\n%ld\n",min);
+	}
+	return 0;
+}

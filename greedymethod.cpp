@@ -1,0 +1,81 @@
+#include<stdio.h>
+int main()
+{
+	long n,i,m,j;
+	double a[100],b[100],c[100],d[100],sum,f,k;
+	while(scanf("%ld%ld",&n,&m)!=EOF)
+	{
+		for(i=1;i<=n;i++)
+		{
+			scanf("%lf",&a[i]);
+		}
+		for(i=1;i<=n;i++)
+		{
+			scanf("%lf",&b[i]);
+		}
+		for(i=1;i<=n;i++)
+		{
+			c[i]=(double)a[i]/b[i];
+			d[i]=c[i];
+		}
+		for(i=n;i>=1;i--)
+		{
+			for(j=1;j<=i-1;j++)
+			{
+				if(c[j]>c[j+1])
+				{
+					k=c[j];
+					c[j]=c[j+1];
+					c[j+1]=k;
+				}
+			}
+		}
+		i=n;
+		sum=0;
+		while(1)
+		{
+			for(j=1;j<=n;j++)
+			{
+				if(c[i]==d[j])
+					break;
+			}
+			if(sum+b[j]<=m)
+			{
+				sum=sum+b[j];
+				m=m-b[j];
+				a[j]=1;
+			}
+			else
+			{
+				f=(double)m/b[j];
+				a[j]=f;
+				break;
+			}
+			i--;
+		} 
+		j=1;
+		while(1)
+		{
+			if(a[j]>1)
+			{
+				a[j]=0;
+			}
+			j++;
+			if(j==n)
+				break;
+		}
+/*		if(a[1]==0||a[1]==1)
+			printf("%.0lf",a[1]);
+		else
+			printf("%.2lf",a[1]);*/
+		for(j=1;j<=n;j++)
+		{
+			if(a[j]==0||a[j]==1)
+				printf("%.0lf ",a[j]);
+			else
+				printf("%.2lf ",a[j]);
+		}
+		printf("\n");
+	}
+	return 0;
+}
